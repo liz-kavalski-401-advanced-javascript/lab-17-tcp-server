@@ -1,6 +1,7 @@
 'use strict';
 //
 const net =require ('net');
+//const fs = require('./files/test.txt');
 
 const client= new net.Socket();
 
@@ -9,13 +10,20 @@ client.connect(3001,'localhost',() => {})
 
 
 
-const events = ['read', 'save','error']
+const events = ['read','create','save','delete', 'error']
 
-server.on('connection')
+// server.on('connection')
+setInterval(()=>{
+  let events =events[Math.floor(Math.random()* events.length)];
+  client.write(`${events} An Event of ${events} just happen`)
+},1000);
 
-client.write(`${event} An Event of ${event} just happen`)
+client.on('close',function(){
+  console.log('connection has closed for the day. Have a nice day!')
+})
 
-// const fs = require('fs');
+
+
 
 // const alterFile = (file) => {
 //   fs.readFile( file, (err, data) => {
